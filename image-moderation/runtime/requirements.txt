@@ -1,0 +1,9 @@
+boto3==1.26.33
+botocore==1.29.33
+chalice==1.27.3
+marshmallow
+requests
+Pillow==9.3.0
+pyzbar==0.1.9
+pyzbar[scripts]
+aws_requests_auth

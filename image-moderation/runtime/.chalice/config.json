@@ -1,0 +1,35 @@
+{
+  "version": "2.0",
+  "app_name": "image-moderation",
+  "stages": {
+    "dev": {
+      "api_gateway_stage": "api",
+      "autogen_policy": false,
+      "environment_variables": {
+        "MODERATION_WHITELIST_TABLE_NAME": "image-moderation-dev-ImageModerationmoderationWhiteListTableDC451E53-1L8H5N27SDJK9",
+        "MODERATION_BLACKLIST_TABLE_NAME": "image-moderation-dev-ImageModerationmoderationBlackListTable4E1108D0-EK3UCTUMQXRT",
+        "MODERATION_CUSTOMER_FACIAL_THRESHOLD": "85",
+        "MODERATION_CELEBRITY_FACIAL_THRESHOLD": "95",
+        "MODERATION_ANIMATION_EXTRACTION_SMALL_DEFAULT_MAX_THRESHOLD": "8",
+        "MODERATION_ANIMATION_EXTRACTION_LARGE_DEFAULT_THRESHOLD_SIZE": "25",
+        "MODERATION_ANIMATION_EXTRACTION_SIZE_THRESHOLD": "5242880",
+        "MODERATION_IMAGE_COMPRESS_QUALITY_STEP": "8",
+        "MODERATION_IMAGE_COMPRESSION_SIZE_THRESHOLD": "524288",
+        "MODERATION_DETECT_LABEL_INCLUSION_FILTER": "Military,Military Base,Military Officer,Military Uniform,Armor,Armored,Armory,Army,Tank,War,Warplane,Soldier,Protest,Parade,Banner,Weapon,Knife,Gun,Shotgun,Machine Gun,QR Code,Money,Dollar,Coin,Smoking,Alcohol",
+        "MODERATION_DETECT_MODERATION_LABEL_FILTER_ENABLED": "False",
+        "MODERATION_DETECT_MODERATION_LABEL_INCLUSION_FILTER": "Explicit Nudity,Suggestive,Violence,Visually Disturbing,Rude Gestures,Drugs,Tobacco,Alcohol,Gambling,Hate Symbols",
+        "MODERATION_IMAGE_BLACKLIST_WHITELIST_ENABLED": "True",
+        "MODERATION_BACKEND_SERVICES": "DetectLabels,DetectModerationLabels,FaceSearch,CelebritySearch,DetectByCustomModels",
+        "MODERATION_REKOGNITION_COLLECTION_ID": "moderation_custom_face_collection",
+        "SAGEMAKER_ENDPOINT_NAME": "ImageModerationSageMakerCustomLabelEndpointA87418F-7EUPo1MAjG3d"
+      },
+      "lambda_functions": {
+        "api_handler": {
+          "environment_variables": {
+            "OTHER_NAME": ""
+          }
+        }
+      }
+    }
+  }
+}

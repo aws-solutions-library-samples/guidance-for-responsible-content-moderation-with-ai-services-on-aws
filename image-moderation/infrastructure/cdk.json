@@ -1,0 +1,37 @@
+{
+  "app": "python3 app.py",
+  "context": {
+    "aws-cdk:enableDiffNoFail": "true",
+    "@aws-cdk/core:stackRelativeExports": "true",
+    "workshop": {
+      "pytorch_version": "1.13.1",
+      "py_version": "py39",
+      "moderation_vpc_cidr": "10.0.11.0/16",
+      "moderation_customer_facial_threshold": 85,
+      "moderation_celebrity_facial_threshold": 95,
+      "moderation_animation_extraction_small_default_max_threshold": 8,
+      "moderation_animation_extraction_large_default_threshold_size": 25,
+      "moderation_animation_extraction_size_threshold": 5242880,
+      "moderation_image_compress_quality_step": 8,
+      "moderation_image_compression_size_threshold": 524288,
+      "moderation_detect_label_inclusion_filter": "Bomb,Bomber,Prayer,Priest,Skeleton,Hemp,Poppy,Smoke,Gambling,American Flag,Argentina Flag,Australia Flag,Austria Flag,Bangladesh Flag,Belgium Flag,Brazil Flag,Canada Flag,Chile Flag,China Flag,Colombia Flag,Czech Republic Flag,Egypt Flag,France Flag,Germany Flag,Hong Kong SAR Flag,India Flag,Indonesia Flag,Iran Flag,Ireland Flag,Israel Flag,Italy Flag,Japan Flag,Korea Flag,Malaysia Flag,Mexico Flag,Netherlands Flag,Nigeria Flag,North Korea Flag,Norway Flag,Pakistan Flag,Philippines Flag,Portugal Flag,Romania Flag,Russia Flag,Saudi Arabia Flag,Singapore Flag,South Africa Flag,Spain Flag,Taiwan Flag,Thailand Flag,Turkey Flag,United Arab Emirates Flag,United Kingdom Flag,Vietnam Flag,Pill,Nuclear,Nuclear Explosion,Comics,Game,Military,Military Base,Military Officer,Military Uniform,Armor,Armored,Armory,Army,Tank,War,Warplane,Soldier,Protest,Parade,Banner,Weapon,Knife,Gun,Shotgun,Machine Gun,QR Code,Money,Dollar,Coin,Smoking,Alcohol",
+      "moderation_detect_moderation_label_filter_enabled": false,
+      "moderation_detect_moderation_label_inclusion_filter": "Explicit Nudity,Suggestive,Violence,Visually Disturbing,Rude Gestures,Drugs,Tobacco,Alcohol,Gambling,Hate Symbols",
+      "moderation_rekognition_collection_id": "moderation_custom_face_collection",
+      "moderation_backend_services": "DetectLabels,DetectModerationLabels,FaceSearch,CelebritySearch,DetectByCustomModels",
+      "moderation_image_blacklist_whitelist_enabled": false,
+      "moderation_image_blacklist_whitelist_read_capacity": 20,
+      "moderation_image_blacklist_whitelist_write_capacity": 20,
+      "sagemaker_endpoint_instance_type": "ml.g4dn.xlarge",
+      "sagemaker_endpoint_instance_count": 1,
+      "sagemaker_endpoint_workers": 4,
+      "sagemaker_min_capacity": 1,
+      "sagemaker_max_capacity": 1,
+      "enable_sagemaker_notebook": true,
+      "sagemaker_logging_level": 20,
+      "enable_sagemaker_autoscaling": false,
+      "sagemaker_image_uri": "",
+      "sagemaker_inference_model_name": "inference-pytorch.tar.gz"
+    }
+  }
+}

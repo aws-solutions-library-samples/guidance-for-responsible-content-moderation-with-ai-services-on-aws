@@ -1,0 +1,521 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Transform": "AWS::Serverless-2016-10-31",
+  "Outputs": {
+    "RestAPIId": {
+      "Value": {
+        "Ref": "RestAPI"
+      }
+    },
+    "APIHandlerName": {
+      "Value": {
+        "Ref": "APIHandler"
+      }
+    },
+    "APIHandlerArn": {
+      "Value": {
+        "Fn::GetAtt": [
+          "APIHandler",
+          "Arn"
+        ]
+      }
+    },
+    "EndpointURL": {
+      "Value": {
+        "Fn::Sub": "https://${RestAPI}.execute-api.${AWS::Region}.${AWS::URLSuffix}/api/"
+      }
+    }
+  },
+  "Resources": {
+    "ApiHandlerRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Sid": "",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              },
+              "Action": "sts:AssumeRole"
+            }
+          ]
+        },
+        "Policies": [
+          {
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Action": [
+                    "logs:CreateLogGroup",
+                    "logs:CreateLogStream",
+                    "logs:PutLogEvents"
+                  ],
+                  "Resource": "arn:aws:logs:*:*:*",
+                  "Effect": "Allow"
+                },
+                {
+                  "Action": [
+                    "dynamodb:PutItem",
+                    "dynamodb:DeleteItem",
+                    "dynamodb:UpdateItem",
+                    "dynamodb:GetItem",
+                    "dynamodb:Scan",
+                    "dynamodb:Query"
+                  ],
+                  "Resource": [
+                    "arn:aws:dynamodb:*:*:table/moderation-blacklist",
+                    "arn:aws:dynamodb:*:*:table/moderation-whitelist"
+                  ],
+                  "Effect": "Allow"
+                },
+                {
+                  "Action": [
+                    "rekognition:DetectLabels",
+                    "rekognition:DetectModerationLabels",
+                    "rekognition:SearchFacesByImage"
+                  ],
+                  "Resource": "*",
+                  "Effect": "Allow"
+                },
+                {
+                  "Action": [
+                    "s3:GetObject"
+                  ],
+                  "Resource": "arn:aws:s3:::forum-media-*",
+                  "Effect": "Allow"
+                },
+                {
+                  "Action": [
+                    "iam:PassRole"
+                  ],
+                  "Resource": "arn:aws:iam::*:role/media-query-*",
+                  "Effect": "Allow"
+                }
+              ]
+            },
+            "PolicyName": "ApiHandlerRolePolicy"
+          }
+        ]
+      }
+    },
+    "RestAPI": {
+      "Type": "AWS::Serverless::Api",
+      "Properties": {
+        "EndpointConfiguration": "EDGE",
+        "StageName": "api",
+        "DefinitionBody": {
+          "swagger": "2.0",
+          "info": {
+            "version": "1.0",
+            "title": "image-moderation"
+          },
+          "schemes": [
+            "https"
+          ],
+          "paths": {
+            "/Moderation/BlackList": {
+              "post": {
+                "consumes": [
+                  "application/json"
+                ],
+                "produces": [
+                  "application/json"
+                ],
+                "responses": {
+                  "200": {
+                    "description": "200 response",
+                    "schema": {
+                      "$ref": "#/definitions/Empty"
+                    }
+                  }
+                },
+                "x-amazon-apigateway-integration": {
+                  "responses": {
+                    "default": {
+                      "statusCode": "200"
+                    }
+                  },
+                  "uri": {
+                    "Fn::Sub": "arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${APIHandler.Arn}/invocations"
+                  },
+                  "passthroughBehavior": "when_no_match",
+                  "httpMethod": "POST",
+                  "contentHandling": "CONVERT_TO_TEXT",
+                  "type": "aws_proxy"
+                },
+                "summary": "Create a blacklist item"
+              },
+              "get": {
+                "consumes": [
+                  "application/json"
+                ],
+                "produces": [
+                  "application/json"
+                ],
+                "responses": {
+                  "200": {
+                    "description": "200 response",
+                    "schema": {
+                      "$ref": "#/definitions/Empty"
+                    }
+                  }
+                },
+                "x-amazon-apigateway-integration": {
+                  "responses": {
+                    "default": {
+                      "statusCode": "200"
+                    }
+                  },
+                  "uri": {
+                    "Fn::Sub": "arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${APIHandler.Arn}/invocations"
+                  },
+                  "passthroughBehavior": "when_no_match",
+                  "httpMethod": "POST",
+                  "contentHandling": "CONVERT_TO_TEXT",
+                  "type": "aws_proxy"
+                },
+                "summary": "List blacklist items with pagination PageSize and LastEvaluatedKey"
+              }
+            },
+            "/Moderation/BlackList/{key}": {
+              "get": {
+                "consumes": [
+                  "application/json"
+                ],
+                "produces": [
+                  "application/json"
+                ],
+                "responses": {
+                  "200": {
+                    "description": "200 response",
+                    "schema": {
+                      "$ref": "#/definitions/Empty"
+                    }
+                  }
+                },
+                "x-amazon-apigateway-integration": {
+                  "responses": {
+                    "default": {
+                      "statusCode": "200"
+                    }
+                  },
+                  "uri": {
+                    "Fn::Sub": "arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${APIHandler.Arn}/invocations"
+                  },
+                  "passthroughBehavior": "when_no_match",
+                  "httpMethod": "POST",
+                  "contentHandling": "CONVERT_TO_TEXT",
+                  "type": "aws_proxy"
+                },
+                "summary": "Retrieve a blacklist item by key",
+                "parameters": [
+                  {
+                    "name": "key",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                  }
+                ]
+              },
+              "delete": {
+                "consumes": [
+                  "application/json"
+                ],
+                "produces": [
+                  "application/json"
+                ],
+                "responses": {
+                  "200": {
+                    "description": "200 response",
+                    "schema": {
+                      "$ref": "#/definitions/Empty"
+                    }
+                  }
+                },
+                "x-amazon-apigateway-integration": {
+                  "responses": {
+                    "default": {
+                      "statusCode": "200"
+                    }
+                  },
+                  "uri": {
+                    "Fn::Sub": "arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${APIHandler.Arn}/invocations"
+                  },
+                  "passthroughBehavior": "when_no_match",
+                  "httpMethod": "POST",
+                  "contentHandling": "CONVERT_TO_TEXT",
+                  "type": "aws_proxy"
+                },
+                "summary": "Delete a blacklist item by key",
+                "parameters": [
+                  {
+                    "name": "key",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                  }
+                ]
+              }
+            },
+            "/Moderation/WhiteList": {
+              "post": {
+                "consumes": [
+                  "application/json"
+                ],
+                "produces": [
+                  "application/json"
+                ],
+                "responses": {
+                  "200": {
+                    "description": "200 response",
+                    "schema": {
+                      "$ref": "#/definitions/Empty"
+                    }
+                  }
+                },
+                "x-amazon-apigateway-integration": {
+                  "responses": {
+                    "default": {
+                      "statusCode": "200"
+                    }
+                  },
+                  "uri": {
+                    "Fn::Sub": "arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${APIHandler.Arn}/invocations"
+                  },
+                  "passthroughBehavior": "when_no_match",
+                  "httpMethod": "POST",
+                  "contentHandling": "CONVERT_TO_TEXT",
+                  "type": "aws_proxy"
+                },
+                "summary": "Create a whitelist item"
+              },
+              "get": {
+                "consumes": [
+                  "application/json"
+                ],
+                "produces": [
+                  "application/json"
+                ],
+                "responses": {
+                  "200": {
+                    "description": "200 response",
+                    "schema": {
+                      "$ref": "#/definitions/Empty"
+                    }
+                  }
+                },
+                "x-amazon-apigateway-integration": {
+                  "responses": {
+                    "default": {
+                      "statusCode": "200"
+                    }
+                  },
+                  "uri": {
+                    "Fn::Sub": "arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${APIHandler.Arn}/invocations"
+                  },
+                  "passthroughBehavior": "when_no_match",
+                  "httpMethod": "POST",
+                  "contentHandling": "CONVERT_TO_TEXT",
+                  "type": "aws_proxy"
+                },
+                "summary": "List whitelist items with pagination PageSize and LastEvaluatedKey"
+              }
+            },
+            "/Moderation/WhiteList/{key}": {
+              "get": {
+                "consumes": [
+                  "application/json"
+                ],
+                "produces": [
+                  "application/json"
+                ],
+                "responses": {
+                  "200": {
+                    "description": "200 response",
+                    "schema": {
+                      "$ref": "#/definitions/Empty"
+                    }
+                  }
+                },
+                "x-amazon-apigateway-integration": {
+                  "responses": {
+                    "default": {
+                      "statusCode": "200"
+                    }
+                  },
+                  "uri": {
+                    "Fn::Sub": "arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${APIHandler.Arn}/invocations"
+                  },
+                  "passthroughBehavior": "when_no_match",
+                  "httpMethod": "POST",
+                  "contentHandling": "CONVERT_TO_TEXT",
+                  "type": "aws_proxy"
+                },
+                "summary": "Retrieve a whitelist item by key",
+                "parameters": [
+                  {
+                    "name": "key",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                  }
+                ]
+              },
+              "delete": {
+                "consumes": [
+                  "application/json"
+                ],
+                "produces": [
+                  "application/json"
+                ],
+                "responses": {
+                  "200": {
+                    "description": "200 response",
+                    "schema": {
+                      "$ref": "#/definitions/Empty"
+                    }
+                  }
+                },
+                "x-amazon-apigateway-integration": {
+                  "responses": {
+                    "default": {
+                      "statusCode": "200"
+                    }
+                  },
+                  "uri": {
+                    "Fn::Sub": "arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${APIHandler.Arn}/invocations"
+                  },
+                  "passthroughBehavior": "when_no_match",
+                  "httpMethod": "POST",
+                  "contentHandling": "CONVERT_TO_TEXT",
+                  "type": "aws_proxy"
+                },
+                "summary": "Delete a whitelist item by key",
+                "parameters": [
+                  {
+                    "name": "key",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                  }
+                ]
+              }
+            },
+            "/Moderation/DetectImageLabels": {
+              "post": {
+                "consumes": [
+                  "application/json"
+                ],
+                "produces": [
+                  "application/json"
+                ],
+                "responses": {
+                  "200": {
+                    "description": "200 response",
+                    "schema": {
+                      "$ref": "#/definitions/Empty"
+                    }
+                  }
+                },
+                "x-amazon-apigateway-integration": {
+                  "responses": {
+                    "default": {
+                      "statusCode": "200"
+                    }
+                  },
+                  "uri": {
+                    "Fn::Sub": "arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${APIHandler.Arn}/invocations"
+                  },
+                  "passthroughBehavior": "when_no_match",
+                  "httpMethod": "POST",
+                  "contentHandling": "CONVERT_TO_TEXT",
+                  "type": "aws_proxy"
+                },
+                "summary": "Detect image labels"
+              }
+            }
+          },
+          "definitions": {
+            "Empty": {
+              "type": "object",
+              "title": "Empty Schema"
+            }
+          },
+          "x-amazon-apigateway-binary-media-types": [
+            "application/octet-stream",
+            "application/x-tar",
+            "application/zip",
+            "audio/basic",
+            "audio/ogg",
+            "audio/mp4",
+            "audio/mpeg",
+            "audio/wav",
+            "audio/webm",
+            "image/png",
+            "image/jpg",
+            "image/jpeg",
+            "image/gif",
+            "video/ogg",
+            "video/mpeg",
+            "video/webm"
+          ]
+        }
+      }
+    },
+    "APIHandler": {
+      "Type": "AWS::Serverless::Function",
+      "Properties": {
+        "Runtime": "python3.9",
+        "Handler": "app.app",
+        "CodeUri": "./deployment.zip",
+        "Tags": {
+          "aws-chalice": "version=1.27.3:stage=dev:app=image-moderation"
+        },
+        "Tracing": "PassThrough",
+        "Timeout": 60,
+        "MemorySize": 128,
+        "Environment": {
+          "Variables": {
+            "MODERATION_WHITELIST_TABLE_NAME": "moderation-WhiteListTable",
+            "MODERATION_BLACKLIST_TABLE_NAME": "moderation-BlackListTable",
+            "MODERATION_REKOGNITION_COLLECTION_ID": "moderation_rekognition_collection_id_dfkie9s",
+            "MEDIA_BUCKET_NAME": "forum-mediabucket",
+            "SAGEMAKER_DATA_BUCKET": "sagemark-data-bucket",
+            "SAGEMAKER_ENDPOINT_NAME": "ImageModerationSageMakerCustomLabelEndpointA87418F-yuRLTnNSvgAe",
+            "OTHER_NAME": ""
+          }
+        },
+        "Role": {
+          "Fn::GetAtt": [
+            "ApiHandlerRole",
+            "Arn"
+          ]
+        }
+      }
+    },
+    "APIHandlerInvokePermission": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "APIHandler"
+        },
+        "Action": "lambda:InvokeFunction",
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Sub": [
+            "arn:${AWS::Partition}:execute-api:${AWS::Region}:${AWS::AccountId}:${RestAPIId}/*",
+            {
+              "RestAPIId": {
+                "Ref": "RestAPI"
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}
