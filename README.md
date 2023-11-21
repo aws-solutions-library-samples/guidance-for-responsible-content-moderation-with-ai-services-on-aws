@@ -2,14 +2,13 @@
 # Media Content Moderation Application
 
 ## Overview
-This application is to moderate images with aws services. It could identify inappropriate contents like png/jpeg/gif images or videos with labels.
+This application is to moderate images with aws services. It could identify inappropriate contents like png/jpeg/gif images with labels.
 
 After cloning this repository,
 
 * You can train a small model for customized moderation scenarios
 * Then you need to deploy the image solution via CDK
-* Then you need to deploy video solution
-* You can test with images or videos
+* You can test with images
 
 ## Cost
 
@@ -65,15 +64,11 @@ For this example, you can try with 'workshop' profile by the following command::
   $ cdk deploy -c config=workshop
 ```
 
-When it's done, the command prompt reappears. You can go to the AWS CloudFormation console and see that it now lists image-moderation-workshop. 
-
-##Deploy video solution
-
-TODO
+When it's done, the command prompt reappears. You can go to the AWS CloudFormation console and see that it now lists image-moderation-workshop.
 
 ## Test
 
-After deployment, you can get a url of your content moderation url in output cdk.
+After deployment, you can get an url of your content moderation url in output cdk.
 image-moderation-workshop.ImageModerationimagemoderationworkshopEndpoint** = https://**.execute-api.**.amazonaws.com/prod/
 As this api is protected, you must specify a user who has the permission to invoke this api to test with AWS IAM V4 auth.
 You can post data as the following,
