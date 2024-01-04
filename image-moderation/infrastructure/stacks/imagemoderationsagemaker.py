@@ -1,8 +1,5 @@
 from aws_cdk import (
     aws_iam as iam,
-    aws_kms as kms,
-    aws_s3 as s3,
-    aws_s3_deployment as s3_deployment,
     aws_cloudwatch as cloudwatch,
     aws_sagemaker as sagemaker,
     aws_applicationautoscaling as asg,
@@ -180,33 +177,6 @@ class ImageModerationSageMaker(Construct):
             )
 
         return endpoint
-
-    # def _create_data_bucket(self):
-    #     data_bucket = s3.Bucket(
-    #         self,
-    #         "data",
-    #         removal_policy=cdk.RemovalPolicy.RETAIN,
-    #         encryption=s3.BucketEncryption.S3_MANAGED,
-    #         block_public_access=s3.BlockPublicAccess.BLOCK_ALL,
-    #         server_access_logs_prefix='access_log_'
-    #     )
-    #
-    #     data_bucket.add_to_resource_policy(
-    #         iam.PolicyStatement(
-    #             sid="AllowSSLRequestsOnly",
-    #             effect=iam.Effect.DENY,
-    #             actions=["s3:*"],
-    #             conditions={"Bool": {"aws:SecureTransport": "false"}},
-    #             principals=[iam.AnyPrincipal()],
-    #             resources=[
-    #                 data_bucket.arn_for_objects("*"),
-    #                 data_bucket.bucket_arn,
-    #             ],
-    #         )
-    #     )
-    #
-    #     cdk.CfnOutput(self, "DataBucketName", value=data_bucket.bucket_name)
-    #     return data_bucket
 
     def _create_role(self):
         # IAM Roles
