@@ -65,6 +65,7 @@ class ImageModeration(Construct):
                 'SAGEMAKER_ENDPOINT_NAME': self._sagemaker.endpoint_name
             },
             role=default_role,
+            tracing=aws_lambda.Tracing.ACTIVE,
             vpc=self._vpc
         )
 
