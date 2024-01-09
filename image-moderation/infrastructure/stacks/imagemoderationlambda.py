@@ -158,11 +158,41 @@ class ImageModeration(Construct):
 
         root_resource = api.root.add_resource("Moderation")
         self._add_detection_resources_to_api_gateway(
+            api,
             root_resource.add_resource("DetectImageLabels"))
 
         return api
 
     # add api_key_required
-    def _add_detection_resources_to_api_gateway(self, parent_resource: apigateway.Resource):
-        parent_resource.add_method("POST", authorization_type=apigateway.AuthorizationType.IAM)
+    def _add_detection_resources_to_api_gateway(self, 
+                                                api, 
+                                                parent_resource: apigateway.Resource):
+        contentModerationModel = apigateway.Model(self, "ContentModerationModel", 
+                                                  rest_api = api,
+                                                  content_type="application/json",
+                                                  model_name="ContentModerationModel",
+                                                  description= "To validate the moderation body",
+                                                  schema= apigateway.JsonSchema(
+                                                        type=apigateway.JsonSchemaType.OBJECT,
+                                                        properties={
+                                                            "Image": apigateway.JsonSchema(type=apigateway.JsonSchemaType.OBJECT),
+                                                            "MinConfidence": apigateway.JsonSchema(type=apigateway.JsonSchemaType.INTEGER,
+                                                                                                   minimum=20,
+                                                                                                   maximum=100)
+                                                        },
+                                                        required= ["Image"],
+                                                       ),
+                                                )
+
+        parent_resource.add_method("POST", 
+                                   request_validator=apigateway.RequestValidator(self,
+                                                                                 "ContentModerationValidator",
+                                                                                 rest_api=api,
+                                                                                 request_validator_name="content-moderation-body-validator",
+                                                                                 validate_request_body=True
+                                                                                 ),
+                                    request_models= {
+                                        "application/json": contentModerationModel
+                                    },                                                
+                                   authorization_type=apigateway.AuthorizationType.IAM)
         parent_resource.add_cors_preflight(allow_origins=apigateway.Cors.ALL_ORIGINS, allow_methods=['POST'])

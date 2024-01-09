@@ -15,6 +15,7 @@ from chalicelib.paramsutils import Strings
 app = Chalice(app_name='image-moderation')
 app.log.setLevel(logging.DEBUG)
 
+## global constants
 _SESSION = None
 _REKOGNITION_CLIENT = None
 _SAGEMAKER_CLIENT = None
@@ -127,7 +128,7 @@ class DetectLabelsSchema(Schema):
 
     Image = fields.Nested(nested=ImageSchema, required=True)
     ReturnSource = fields.List(fields.String(), required=False, validate=validate_return_resource)
-    MinConfidence = fields.Integer(validate=lambda value: 20 < value <= 100)
+    MinConfidence = fields.Integer(validate=lambda value: 20 <= value <= 100)
     MaxLabels = fields.Integer(required=False, validate=lambda value: 1 <= value <= 4096)
 
 def __get_image(image):

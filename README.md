@@ -54,7 +54,7 @@ Now you need to install deployment dependencies.
 ```shell
   $ cd image-moderation/infrastructure
   $ python3 -m venv .venv
-  $ . venv/bin/activate
+  $ source .venv/bin/activate
   $ pip install -r requirements.txt
 ```
 
