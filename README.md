@@ -29,8 +29,7 @@ You need to
 * clone the repo
 
 ### Third-party tools
-
-* [Insomnia](https://insomnia.rest/) (Optional): You can post request with AWS IAM V4 Auth to test deployed API
+N/A
 
 ### AWS account requirements
 
@@ -70,9 +69,8 @@ When it's done, the command prompt reappears. You can go to the AWS CloudFormati
 
 After deployment, you can get an url of your content moderation url in output cdk.
 image-moderation-workshop.ImageModerationimagemoderationworkshopEndpoint** = https://**.execute-api.**.amazonaws.com/prod/
-As this api is protected, you must specify a user who has the permission to invoke this api to test with AWS IAM V4 auth.
+As this api is protected, you must specify a user who has the permission to invoke this api to test with AWS IAM V4 auth in your client. Alternatively, you can test via APIGateway Console, please refer to [API Gateway console test](https://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-test-method.html). 
 You can post data as the following,
-
     {
       "Image": {
         "Url": "image url, you can put tulip image or some moderation image"
