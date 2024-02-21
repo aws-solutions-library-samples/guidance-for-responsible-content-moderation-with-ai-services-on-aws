@@ -39,7 +39,6 @@ class TestSageMakerClientIntegrationTest(unittest.TestCase):
 
         self.assertEqual('中国国旗', label['Label'])
         self.assertEqual('DetectByCustomModels', label['ReturnSource'])
-        self.assertEqual('pass', label['Suggestion'])
         self.assertGreater(label['Confidence'], 60)
 
 
@@ -75,14 +74,12 @@ class TestSageMakerClient(unittest.TestCase):
         smoking = detected_labels[0]
         self.assertEqual('Wine', smoking['Label'])
         self.assertEqual('DetectByCustomModels', smoking['ReturnSource'])
-        self.assertEqual('pass', smoking['Suggestion'])
         self.assertAlmostEqual(smoking['Confidence'], 77, 3)
 
         # verify 'wine' label
         wine = detected_labels[1]
         self.assertEqual('Smoking', wine['Label'])
         self.assertEqual('DetectByCustomModels', wine['ReturnSource'])
-        self.assertEqual('pass', wine['Suggestion'])
         self.assertAlmostEqual(wine['Confidence'], 55, 3)
 
         # verify invocation

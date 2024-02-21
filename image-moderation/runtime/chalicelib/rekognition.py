@@ -137,7 +137,6 @@ class RekognitonClient(object):
                         'Label': label['Name'],
                         'ReturnSource': 'DetectLabels',
                         'Confidence': label['Confidence'],
-                        "Suggestion": "pass",
                         "BoundingBox": {
                             "Left": self._get_json_value_with_default(bounding_box, "Left", 0),
                             "Top": self._get_json_value_with_default(bounding_box, "Top", 0),
@@ -150,8 +149,7 @@ class RekognitonClient(object):
             labels.append({
                 'Label': label['Name'],
                 'ReturnSource': 'DetectLabels',
-                'Confidence': label['Confidence'],
-                "Suggestion": "pass"
+                'Confidence': label['Confidence']
             })
 
         logger.debug(
@@ -208,8 +206,7 @@ class RekognitonClient(object):
             all_labels.append({
                 'Label': label['Name'],
                 'ReturnSource': 'DetectModerationLabels',
-                'Confidence': label['Confidence'],
-                "Suggestion": "pass"
+                'Confidence': label['Confidence']
             })
 
         # return labels for max labels
@@ -271,8 +268,7 @@ class RekognitonClient(object):
                 faces.append({
                     'Label': face.get('Face').get('ExternalImageId'),
                     'ReturnSource': 'FaceSearch',
-                    'Confidence': face['Similarity'],
-                    "Suggestion": "pass"
+                    'Confidence': face['Similarity']
                 })
 
         logger.debug("Search faces with rek req id {} in collection {} found labels {} for base64(data): {} or {}/{}"
@@ -300,8 +296,7 @@ class RekognitonClient(object):
                     'Label': face['Label'],
                     'Id': face['Id'],
                     'ReturnSource': 'CelebritySearch',
-                    'Confidence': face['Confidence'],
-                    "Suggestion": "pass"
+                    'Confidence': face['Confidence']
                 })
 
         # remove Id

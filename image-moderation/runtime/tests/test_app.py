@@ -192,13 +192,11 @@ class TestDetectLabels(TestCase):
             {
                 "Label": "terrisom",
                 "ReturnSource": "DetectLabels",
-                "Confidence": 88.88,
-                "Suggestion": "block"},
+                "Confidence": 88.88},
             {
                 "Label": "Chinese-flag",
                 "ReturnSource": "DetectModerationLabels",
                 "Confidence": 18.99,
-                "Suggestion": "pass",
                 "Words": ["QQ", "1234567890"]
             }]
 
@@ -246,13 +244,11 @@ class TestDetectLabels(TestCase):
             {
                 "Label": "terrisom",
                 "ReturnSource": "DetectLabels",
-                "Confidence": 88.88,
-                "Suggestion": "block"},
+                "Confidence": 88.88},
             {
                 "Label": "Chinese-flag",
                 "ReturnSource": "DetectModerationLabels",
                 "Confidence": 18.99,
-                "Suggestion": "pass",
                 "Words": ["QQ", "1234567890"]
             }]
 

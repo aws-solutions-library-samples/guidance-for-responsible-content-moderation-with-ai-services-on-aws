@@ -34,14 +34,12 @@ class TestRekognitonClient(unittest.TestCase):
         smoking = detected_labels[0]
         self.assertEqual('Wine', smoking['Label'])
         self.assertEqual('DetectLabels', smoking['ReturnSource'])
-        self.assertEqual('pass', smoking['Suggestion'])
         self.assertAlmostEqual(smoking['Confidence'], 77, 3)
 
         # verify 'wine' label
         wine = detected_labels[1]
         self.assertEqual('Smoking', wine['Label'])
         self.assertEqual('DetectLabels', wine['ReturnSource'])
-        self.assertEqual('pass', wine['Suggestion'])
         self.assertAlmostEqual(wine['Confidence'], 55, 3)
 
         # verify invocation
@@ -92,7 +90,6 @@ class TestRekognitonClient(unittest.TestCase):
         qrcode = detected_labels[0]
         self.assertEqual('QR Code', qrcode['Label'])
         self.assertEqual('DetectLabels', qrcode['ReturnSource'])
-        self.assertEqual('pass', qrcode['Suggestion'])
         self.assertEqual(qrcode['BoundingBox'], {'Left': 0.1, 'Top': 0.3, 'Height': 0.56, 'Width': 0.2})
         self.assertAlmostEqual(qrcode['Confidence'], 77, 3)
 
@@ -100,7 +97,6 @@ class TestRekognitonClient(unittest.TestCase):
         wine = detected_labels[1]
         self.assertEqual('Smoking', wine['Label'])
         self.assertEqual('DetectLabels', wine['ReturnSource'])
-        self.assertEqual('pass', wine['Suggestion'])
         self.assertAlmostEqual(wine['Confidence'], 55, 3)
 
         # verify invocation
@@ -218,14 +214,12 @@ class TestRekognitonClient(unittest.TestCase):
         drinking = detected_labels[0]
         self.assertEqual('Drinking', drinking['Label'])
         self.assertEqual('DetectModerationLabels', drinking['ReturnSource'])
-        self.assertEqual('pass', drinking['Suggestion'])
         self.assertAlmostEqual(drinking['Confidence'], 77, 3)
 
         # verify 'wine' label
         smoking = detected_labels[1]
         self.assertEqual('Smoking', smoking['Label'])
         self.assertEqual('DetectModerationLabels', smoking['ReturnSource'])
-        self.assertEqual('pass', smoking['Suggestion'])
         self.assertAlmostEqual(smoking['Confidence'], 55, 3)
 
         # verify invocation
@@ -261,14 +255,12 @@ class TestRekognitonClient(unittest.TestCase):
         drinking = detected_labels[0]
         self.assertEqual('Drinking', drinking['Label'])
         self.assertEqual('DetectModerationLabels', drinking['ReturnSource'])
-        self.assertEqual('pass', drinking['Suggestion'])
         self.assertAlmostEqual(drinking['Confidence'], 77, 3)
 
         # verify 'wine' label
         smoking = detected_labels[1]
         self.assertEqual('Smoking', smoking['Label'])
         self.assertEqual('DetectModerationLabels', smoking['ReturnSource'])
-        self.assertEqual('pass', smoking['Suggestion'])
         self.assertAlmostEqual(smoking['Confidence'], 55, 3)
 
         # verify invocation
@@ -365,14 +357,12 @@ class TestRekognitonClient(unittest.TestCase):
         face1 = detected_labels[0]
         self.assertEqual('face1', face1['Label'])
         self.assertEqual('FaceSearch', face1['ReturnSource'])
-        self.assertEqual('pass', face1['Suggestion'])
         self.assertAlmostEqual(face1['Confidence'], 97, 3)
 
         # verify 'wine' label
         face2 = detected_labels[1]
         self.assertEqual('face2', face2['Label'])
         self.assertEqual('FaceSearch', face2['ReturnSource'])
-        self.assertEqual('pass', face2['Suggestion'])
         self.assertAlmostEqual(face2['Confidence'], 95, 3)
 
         # verify invocation
@@ -470,14 +460,12 @@ class TestRekognitonClient(unittest.TestCase):
         face1 = detected_labels[0]
         self.assertEqual('face1', face1['Label'])
         self.assertEqual('CelebritySearch', face1['ReturnSource'])
-        self.assertEqual('pass', face1['Suggestion'])
         self.assertAlmostEqual(face1['Confidence'], 87, 3)
 
         # verify 'wine' label
         face2 = detected_labels[1]
         self.assertEqual('face2', face2['Label'])
         self.assertEqual('CelebritySearch', face2['ReturnSource'])
-        self.assertEqual('pass', face2['Suggestion'])
         self.assertAlmostEqual(face2['Confidence'], 66, 3)
 
         # verify invocation

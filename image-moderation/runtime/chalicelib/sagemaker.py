@@ -68,8 +68,7 @@ class SageMakerClient(object):
             labels.append({
                 'Label': customer_Label['Label'],
                 'ReturnSource': 'DetectByCustomModels',
-                'Confidence': customer_Label['Confidence'] * 100,
-                "Suggestion": "pass"
+                'Confidence': customer_Label['Confidence'] * 100
             })
         logger.info("Detected labels {} by sagemaker {} with data base64(data): {}".format(
             labels, self._endpoint_name, base64.b64encode(image_bytes)[0:100]))
