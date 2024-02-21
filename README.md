@@ -15,18 +15,33 @@ After cloning this repository,
 You are responsible for the cost of the AWS services used while running this Guidance. 
 
 ## Prerequisites
+### Skills
+To complete the workshop, we recommend that you have some basic experience with the following:
+- Python3: You must be able to read and understand Python code 
+- Docker: With Docker, you can manage your infrastructure in the same ways you manage your applications. 
+- ML basic experience, for example be familiar with a common ML development cycle, data processing approaches, and be aware about basic ML algorithms and ML model building process. If you'd like to complete the assignments, you must be familiar with Python programming, Jupyter notebooks and ML fundamentals.
+- [AWS SageMaker](https://docs.aws.amazon.com/sagemaker/latest/dg/whatis.html): Amazon SageMaker is a fully managed machine learning (ML) service. With SageMaker, data scientists and developers can quickly and confidently build, train, and deploy ML models into a production-ready hosted environment. 
 
 ### Operating System
 You need to
-* prepare an ec2 instance with x86_64 architecture(t3.xlarge is recommended) for the deployment
+* prepare an ec2 instance with a Linux(Amazon Linux is recommended) x86_64 architecture(t3.xlarge is recommended) for the deployment
+  * Install nodejs: If you haven't installed a stable LTS version for nodejs which is required to install CDK, please refer to [Installing and Updating](https://github.com/nvm-sh/nvm#installing-and-updating) to manage and install nodejs. You can find the stable LTS versions via [Nodejs Releases](https://nodejs.org/en/about/previous-releases), and then install or change it by
+    ```shell
+    nvm install <Stable LTS Version> ## install a LTS Version
+    nvm use <Stable LTS Version>  ## activate this Version in use
+    ```
   * install cdk in this deployment machine and get your account bootstrapped, please refer to [Install the AWS CDK](https://docs.aws.amazon.com/cdk/v2/guide/getting_started.html#getting_started_install)
-  * install docker in this deployment machine de and start the docker:: 
+  * install docker in this deployment machine de and start the docker: 
     ```shell
     $ sudo yum install docker
+    $ sudo usermod -aG docker ${USER} 
     $ sudo systemctl start docker
     ```
-* prepare a sagemaker notebook instance(ml.t3.xlarge) to build your own custom model
-* clone the repo
+* prepare a SageMaker Notebook instance(ml.t3.xlarge) to build your own custom model. Amazon SageMaker is a fully managed machine learning (ML) service. We use [SageMaker Notebook](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi.html) to run an Jupyter Notebook instance to build your own custom model for specified content moderation dectection.
+* Download the demo code on your EC2 instance you just created for deployment, 
+  ```shell
+    $ git clone https://github.com/aws-solutions-library-samples/guidance-for-ai-powered-ugc-content-moderation-on-aws.git
+  ```
 
 ### Third-party tools
 N/A
@@ -106,7 +121,11 @@ The solution can handle media format in one of the followings:
 Currently it only support regions which have AWS Rekognition and SageMaker available.
 
 ## Cleanup
+### Terminate The Solution
 Please kick `cdk destroy` to clean up the whole environment in this path `image-moderation/infrastructure`.
+
+### Terminate Deployment EC2
+Now you can follow this link [Terminate your instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/terminating-instances.html) to destroy your deployment EC2 if you've setup for this solution only.
 
 ## FAQ, known issues, additional considerations, and limitations
 N/A
