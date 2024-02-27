@@ -9,6 +9,6 @@ app = cdk.App()
 
 stage = 'workshop'
 
-ChaliceApp(app, 'image-moderation-' + stage, stage, description='Image Moderation Workshop')
+ChaliceApp(app, 'image-moderation-' + stage, stage, description='Image Moderation Workshop (SO9407)')
 
 app.synth()
