@@ -1,5 +1,5 @@
 
-# Media Content Moderation Application
+# Guidance for Responsible Content Moderation with AI Services on AWS
 
 ## Overview
 This application is to moderate images with aws services. It could identify inappropriate contents like png/jpeg/gif images with labels.
